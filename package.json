@@ -1,23 +1,12 @@
 {
   "name": "flaper",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "description": "Typescript package with Flaper services and models",
-  "main": "index.ts",
-  "typings": "./index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "files": [
-    "index.js",
-    "index.js.map",
-    "index.d.ts",
-    "index.ts",
-    "typings.json",
-    "JwtToken.js",
-    "JwtToken.js.map",
-    "JwtToken.d.ts",
-    "JwtToken.ts",
-    "ApiService.js",
-    "ApiService.js.map",
-    "ApiService.d.ts",
-    "ApiService.ts"
+    "dist",
+    "src"
   ],
   "scripts": {
     "install_typings": "typings install",

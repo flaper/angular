@@ -7,6 +7,7 @@ logs
 *.js
 *.js.map
 *.d.ts
+dist
 !flaper.d.ts
 # Runtime data
 pids

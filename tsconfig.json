@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "ES5",
@@ -11,7 +13,7 @@
   "files": [
     "typings/main.d.ts",
     "flaper.d.ts",
-    "index.ts"
+    "src/index.ts"
   ],
   "exclude": [
     "node_modules"
