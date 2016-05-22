@@ -31,7 +31,7 @@ export class UserService {
     return this.currentUser && user && this.currentUser.id === user.id;
   }
 
-  getById(id) {
+  getById(id):Rx.Subject<User> {
     if (!this._usersCache.has(id)) {
       this._usersCache.set(id, new Rx.ReplaySubject<User>(1));
       this.api.request('get', `users/${id}`)
@@ -62,5 +62,3 @@ export class UserService {
     return this.api.request('get', `users/${id}/identities`)
   }
 }
-
-export let USER_SERVICE_PROVIDER = [UserService];

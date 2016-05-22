@@ -1,6 +1,6 @@
-import {AUTH_SERVICE_PROVIDER} from './auth/AuthService';
-import {API_SERVICE_PROVIDER} from './ApiService';
-import {USER_SERVICE_PROVIDER} from './UserService';
-import {ACL_PROVIDER} from './ACL';
+import {AuthService} from "./auth/AuthService";
+import {ApiService} from "./ApiService";
+import {UserService} from "./UserService";
+import {ACL} from "./ACL";
 
-export const CORE_PROVIDERS = [AUTH_SERVICE_PROVIDER, API_SERVICE_PROVIDER, USER_SERVICE_PROVIDER, ACL_PROVIDER];
+export const CORE_PROVIDERS = [AuthService, ApiService, UserService, ACL];

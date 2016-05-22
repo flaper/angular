@@ -1,5 +1,5 @@
 {
-  "name": "FlaperCore",
+  "name": "flaper",
   "version": "0.1.0",
   "description": "Typescript package with Flaper services and models",
   "main": "index.ts",

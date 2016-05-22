@@ -142,6 +142,3 @@ export class AuthService {
     }
   }
 }
-
-
-export let AUTH_SERVICE_PROVIDER = [AuthService];

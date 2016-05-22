@@ -66,4 +66,3 @@ export class ACL {
     return model.userId && model.userId === this.userService.currentUserId;
   }
 }
-export let ACL_PROVIDER = [ACL];
