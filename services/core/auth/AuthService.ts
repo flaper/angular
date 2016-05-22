@@ -55,6 +55,9 @@ export class AuthService {
     }
     if (this.jwtData) {
       if (location.path().indexOf('/callback') > -1) {
+        if (Config.SUCCESS_LOGIN_CALLBACK){
+            Config.SUCCESS_LOGIN_CALLBACK();
+        }
         //pageService.navigateAfterLogin();
       }
     } else {

@@ -83,3 +83,5 @@ export class ApiService {
     return params;
   }
 }
+
+export let API_SERVICE_PROVIDER = [ApiService];
