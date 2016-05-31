@@ -1,6 +1,6 @@
 {
   "name": "flaper",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Typescript package with Flaper services and models",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
