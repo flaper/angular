@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from 'flaper';
+import {ApiService} from '../core/ApiService';
 
 @Injectable()
 export class ManageRequestService {

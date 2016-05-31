@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
-import {ApiService} from 'flaper';
+import {ApiService} from '../core/ApiService';
 import {FObject} from "../../models/common/FObject";
 import {DOMAINS} from "../../models/common/Domain"
 
