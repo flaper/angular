@@ -3,4 +3,4 @@ import {ApiService} from "./ApiService";
 import {UserService} from "./UserService";
 import {ACL} from "./ACL";
 
-export const CORE_PROVIDERS = [AuthService, ApiService, UserService, ACL];
+export const CORE_PROVIDERS:Array<any> = [AuthService, ApiService, UserService, ACL];
