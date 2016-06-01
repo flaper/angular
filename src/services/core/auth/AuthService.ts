@@ -22,8 +22,10 @@ export let AUTH_PROVIDERS:AuthProvider[] = [
 ];
 
 function prepare() {
+  let location:any = window.location;
+  let cb = encodeURIComponent(location.origin);
   AUTH_PROVIDERS.forEach((provider:AuthProvider) => {
-    provider.authLink = `${Config.API_SERVER_URL}/auth/${provider.name}`;
+    provider.authLink = `${Config.API_SERVER_URL}/auth/${provider.name}?cb=${cb}`;
     provider.icon = provider.icon ? provider.icon : 'fa fa-' + provider.name;
   });
 }
@@ -55,8 +57,8 @@ export class AuthService {
     }
     if (this.jwtData) {
       if (location.path().indexOf('/callback') > -1) {
-        if (Config.SUCCESS_LOGIN_CALLBACK){
-            Config.SUCCESS_LOGIN_CALLBACK();
+        if (Config.SUCCESS_LOGIN_CALLBACK) {
+          Config.SUCCESS_LOGIN_CALLBACK();
         }
         //pageService.navigateAfterLogin();
       }

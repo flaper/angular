@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HTTP_PROVIDERS, Http, RequestOptionsArgs, Headers, URLSearchParams} from '@angular/http';
+import {HTTP_PROVIDERS, Http, Response, RequestOptionsArgs, Headers, URLSearchParams} from '@angular/http';
 import {JwtToken} from "./auth/JwtToken";
 import {Config} from './Config';
 

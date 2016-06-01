@@ -1,5 +1,5 @@
 import {InitableModel} from "../core/InitableModel";
-import {DOMAINS} from './Domain';
+import {DOMAINS} from '../common/Domain';
 import {ObjectService} from "../../services/object/ObjectService";
 
 export class FObject extends InitableModel {
