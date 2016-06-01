@@ -37,7 +37,6 @@ export class ObjectService {
       ids.forEach((id) => {
         this._objectsCache.set(id, new ReplaySubject<FObject>(1));
       });
-      console.log('list of ids to request', allIds);
       //let's request for allIds to update cache if we need at least one
       let where = {id: {inq: allIds}};
       let filter = {where: where};

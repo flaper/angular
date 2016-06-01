@@ -61,4 +61,12 @@ export class UserService {
   getUserIdentitiesById(id) {
     return this.api.request('get', `users/${id}/identities`)
   }
+
+  count(where = null) {
+    let data = {};
+    if (where){
+      data['where'] = JSON.stringify(where);
+    }
+    return this.api.request('get', 'users/count', data).map(data => data.count);
+  }
 }

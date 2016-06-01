@@ -1,6 +1,6 @@
 export * from './core/index';
+export * from './object/index';
+export * from './story/index';
 export * from './utils/index';
-export * from './object/ManageRequestService';
-export * from './object/ObjectService';
 export * from './providers';
 

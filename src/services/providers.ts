@@ -1,7 +1,7 @@
 import {CORE_PROVIDERS} from './core/providers';
-import {ObjectService} from './object/ObjectService';
-import {ManageRequestService} from './object/ManageRequestService';
+import {ObjectService, ManageRequestService} from './object/index';
+import {StoryBestService, StoryService} from './story/index';
 
-const _PROVIDERS:Array<any> = [ManageRequestService, ObjectService];
+const _PROVIDERS:Array<any> = [ManageRequestService, ObjectService, StoryBestService, StoryService];
 
 export const ALL_PROVIDERS = CORE_PROVIDERS.concat(_PROVIDERS);
