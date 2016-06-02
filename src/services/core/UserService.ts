@@ -40,6 +40,11 @@ export class UserService {
     return this._usersCache.get(id);
   }
 
+  requestById(id, filter = null) {
+    let data = filter ? {filter: JSON.stringify(filter)} : null;
+    return this.api.request('get', `users/${id}`, data)
+  }
+
   requestIds(allIds) {
     allIds = _uniq(allIds);
     let ids = allIds.filter(id => !this._usersCache.has(id));
@@ -70,7 +75,7 @@ export class UserService {
 
   count(where = null) {
     let data = {};
-    if (where){
+    if (where) {
       data['where'] = JSON.stringify(where);
     }
     return this.api.request('get', 'users/count', data).map(data => data.count);
