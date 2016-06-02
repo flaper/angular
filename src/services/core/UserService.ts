@@ -62,6 +62,12 @@ export class UserService {
     return this.api.request('get', `users/${id}/identities`)
   }
 
+  get({where, order = "", offset = 0}) {
+    let filter = JSON.stringify({where: where, order: order, offset: offset});
+    return this.api.request('get', 'users', {filter: filter})
+      .map(rows => rows.map(row => new User({init: row})))
+  }
+
   count(where = null) {
     let data = {};
     if (where){
