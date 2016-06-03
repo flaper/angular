@@ -1,12 +1,12 @@
-# Flaper Core
-Typescript package with Flaper services and models
+# Flaper Angular Lib
+Flaper services, models, pipes, etc
 
 ## Install 
-`npm install flaper`
+`npm install @flaper/angular`
 
 ## Example
 ```typescript
-import {ApiService, AuthService} from 'flaper';
+import {UserService, StoryService} from '@flaper/angular';
 ```
 
 ## To link with local flaper.web
