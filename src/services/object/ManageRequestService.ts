@@ -29,6 +29,14 @@ export class ManageRequestService {
     return this.changeStatus(id, 'delete');
   }
 
+  approve(id) {
+    return this.changeStatus(id, 'approve');
+  }
+
+  deny(id) {
+    return this.changeStatus(id, 'deny');
+  }
+
   private changeStatus(id, action) {
     let observable = this.api.request('put', `ManageRequests/${id}/status/${action}`).publishLast();
     observable.connect();
