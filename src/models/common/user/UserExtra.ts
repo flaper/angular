@@ -11,4 +11,8 @@ export class UserExtra extends InitableModel {
   hasPremiumSupport() {
     return this.premiumSupport && this.premiumSupport > (new Date().toISOString());
   }
+
+  getObjects() {
+    return this.objects ? this.objects : [];
+  }
 }
