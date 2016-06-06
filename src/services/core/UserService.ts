@@ -1,43 +1,54 @@
 import {Injectable} from '@angular/core';
-import {User} from "../../models/common/User";
+import {User, UserExtra} from "../../models/index";
 import {AuthService} from "./auth/AuthService";
 import {ApiService} from './ApiService';
-import * as Rx from 'rxjs';
+import {Subject, ReplaySubject} from 'rxjs';
+import {ucs2} from "punycode";
+import {ReplacePipe} from "../../../node_modules/@angular/common/src/pipes/replace_pipe";
 let _uniq = require('lodash/uniq');
 
 @Injectable()
 export class UserService {
   currentUserId:string;
   currentUser:User;
-  currentUserObservable:Rx.Subject<User>;
+  currentUserObservable:Subject<User>;
 
   constructor(private api:ApiService, authService:AuthService) {
     //noinspection TypeScriptUnresolvedFunction
     authService.currentUserObservable.subscribe((user) => {
+      /*
+       * Will be called two times during first login.
+       * First time, when user restored from ls. Second time when we got data from server
+       */
+      let userChanged = this.currentUserId !== (user ? user.id : null);
       this.currentUser = user;
       this.currentUserId = user ? user.id : null;
       if (user) {
-        let o = new Rx.ReplaySubject<User>(1);
+        let o = new ReplaySubject<User>(1);
         o.next(user);
-        this._usersCache.set(user.id, o);
+        this._setUser(user);
+        if (userChanged) {
+          this.requestUserExtra(user.id);
+        }
       }
     });
     this.currentUserObservable = authService.currentUserObservable;
   }
 
-  private _usersCache:Map<string, Rx.ReplaySubject<User>> = new Map<string, Rx.ReplaySubject<User>>();
+  private _usersObservableCache:Map<string, ReplaySubject<User>> = new Map<string, ReplaySubject<User>>();
+  private _usersCache:Map<string, User> = new Map<string, User>();
 
   isCurrentUser(user:User) {
     return this.currentUser && user && this.currentUser.id === user.id;
   }
 
-  getById(id):Rx.Subject<User> {
-    if (!this._usersCache.has(id)) {
-      this._usersCache.set(id, new Rx.ReplaySubject<User>(1));
+  getById(id):Subject<User> {
+    if (!this._usersObservableCache.has(id)) {
+      this._usersObservableCache.set(id, new ReplaySubject<User>(1));
       this.api.request('get', `users/${id}`)
-        .subscribe(user => this._usersCache.get(user.id).next(user));
+        .subscribe(user => this._setUser(user));
     }
-    return this._usersCache.get(id);
+    return this._usersObservableCache.get(id);
   }
 
   requestById(id, filter = null) {
@@ -45,12 +56,21 @@ export class UserService {
     return this.api.request('get', `users/${id}`, data)
   }
 
+  requestUserExtra(id) {
+    return this.api.request('get', `users/${id}/extra`)
+      .subscribe(extra => {
+        let user = this._usersCache.get(id);
+        user.extra = new UserExtra({init: extra});
+        this._setUser(user);
+      })
+  }
+
   requestIds(allIds) {
     allIds = _uniq(allIds);
-    let ids = allIds.filter(id => !this._usersCache.has(id));
+    let ids = allIds.filter(id => !this._usersObservableCache.has(id));
     if (ids.length > 0) {
       ids.forEach((id) => {
-        this._usersCache.set(id, new Rx.ReplaySubject<User>(1));
+        this._usersObservableCache.set(id, new ReplaySubject<User>(1));
       });
 
       //let's request for allIds to update cache if we need at least one
@@ -58,7 +78,7 @@ export class UserService {
       let filter = {where: where};
       this.api.request('get', 'users', {filter: JSON.stringify(filter)})
         .subscribe(users => {
-          users.forEach(user => this._usersCache.get(user.id).next(user));
+          users.forEach(user =>  this._setUser(user));
         })
     }
   }
@@ -69,8 +89,7 @@ export class UserService {
 
   get({where, order = "", offset = 0}) {
     let filter = JSON.stringify({where: where, order: order, offset: offset});
-    return this.api.request('get', 'users', {filter: filter})
-      .map(rows => rows.map(row => new User({init: row})))
+    return this.api.request('get', 'users', {filter: filter});
   }
 
   count(where = null) {
@@ -80,4 +99,23 @@ export class UserService {
     }
     return this.api.request('get', 'users/count', data).map(data => data.count);
   }
+
+  private _setUser(data) {
+    let user = data;
+    let currentData = this._usersCache.get(user.id);
+    if (currentData && currentData && currentData.extra) {
+      user.extra = currentData.extra;
+    }
+    this._usersCache.set(user.id, user);
+    if (this.currentUserId === user.id) {
+      this.currentUser = user;
+    }
+    let observable = this._usersObservableCache.get(user.id);
+    if (!observable) {
+      observable = new ReplaySubject<User>(1);
+      this._usersObservableCache.set(user.id, observable);
+    }
+    observable.next(user);
+  }
+
 }

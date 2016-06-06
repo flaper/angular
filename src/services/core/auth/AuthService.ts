@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from '../ApiService';
-import * as Rx from 'rxjs';
+import {Subject, BehaviorSubject} from 'rxjs';
 import {UrlService} from '../../utils/UrlService';
 import {Location} from '@angular/common';
-import {User} from "../../../models/common/User";
+import {User} from "../../../models/index";
 import {Config} from "../Config";
 
 export interface AuthProvider {
@@ -45,10 +45,10 @@ export interface JwtData {
 export class AuthService {
   jwtData:JwtData;
   //don't use this, better use UserService.currentUserObservable
-  currentUserObservable:Rx.Subject<User>;
+  currentUserObservable:Subject<User>;
 
   constructor(private api:ApiService, private location:Location) {
-    this.currentUserObservable = new Rx.BehaviorSubject<User>(null);
+    this.currentUserObservable = new BehaviorSubject<User>(null);
     //first let's try to get jwt from URL, then from cache
     let params = UrlService.getSearchParameters();
     if (params['jwt']) {
@@ -70,7 +70,7 @@ export class AuthService {
   setCurrentUser(user) {
     ls.setItem('currentUser', JSON.stringify(user));
     //noinspection TypeScriptUnresolvedFunction
-    this.currentUserObservable.next(user);
+    this.currentUserObservable.next(new User({init: user}));
   }
 
   logout() {

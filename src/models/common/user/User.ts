@@ -1,4 +1,5 @@
-import {InitableModel} from "../core/InitableModel";
+import {UserExtra} from "./UserExtra";
+import {InitableModel} from "../../core/InitableModel";
 
 export class User extends InitableModel {
   id:string;
@@ -8,10 +9,9 @@ export class User extends InitableModel {
   photoLarge:string;
   created:Date;
   updated:Date;
+  extra:UserExtra = new UserExtra({init: {}});
 
-  constructor({init: init = null}) {
+  constructor({init = {}}) {
     super({init});
-    this.created = new Date(init.created);
-    this.updated = new Date(init.updated);
   }
 }
