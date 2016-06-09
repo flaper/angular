@@ -54,15 +54,12 @@ export class AuthService {
     if (params['jwt']) {
       let jwtString = decodeURIComponent(params['jwt']);
       this.validateJwtAndRequestUser(jwtString);
-    }
-    if (this.jwtData) {
-      if (location.path().indexOf('/callback') > -1) {
-        if (Config.SUCCESS_LOGIN_CALLBACK) {
-          Config.SUCCESS_LOGIN_CALLBACK();
-        }
-        //pageService.navigateAfterLogin();
+      if (this.jwtData && Config.SUCCESS_LOGIN_CALLBACK) {
+        Config.SUCCESS_LOGIN_CALLBACK();
       }
-    } else {
+    }
+
+    if (!this.jwtData) {
       this.parseJwtCache();
     }
   }
