@@ -13,9 +13,9 @@ export class UserService {
   currentUser:User;
   currentUserObservable:Subject<User>;
 
-  constructor(private api:ApiService, authService:AuthService) {
+  constructor(private api:ApiService, auth:AuthService) {
     //noinspection TypeScriptUnresolvedFunction
-    authService.currentUserObservable.subscribe((user) => {
+    auth.currentUserObservable.subscribe((user) => {
       /*
        * Will be called two times during first login.
        * First time, when user restored from ls. Second time when we got data from server
@@ -24,15 +24,13 @@ export class UserService {
       this.currentUser = user;
       this.currentUserId = user ? user.id : null;
       if (user) {
-        let o = new ReplaySubject<User>(1);
-        o.next(user);
         this._setUser(user);
         if (userChanged) {
           this.requestUserExtra(user.id);
         }
       }
     });
-    this.currentUserObservable = authService.currentUserObservable;
+    this.currentUserObservable = auth.currentUserObservable;
   }
 
   private _usersObservableCache:Map<string, ReplaySubject<User>> = new Map<string, ReplaySubject<User>>();
@@ -57,12 +55,13 @@ export class UserService {
   }
 
   requestUserExtra(id) {
-    return this.api.request('get', `users/${id}/extra`)
-      .subscribe(extra => {
-        let user = this._usersCache.get(id);
-        user.extra = new UserExtra({init: extra});
-        this._setUser(user);
-      })
+    let observable = this.api.request('get', `users/${id}/extra`);
+    observable.subscribe(extra => {
+      let user = this._usersCache.get(id);
+      user.extra = new UserExtra({init: extra});
+      this._setUser(user);
+    });
+    return observable;
   }
 
   requestIds(allIds) {
@@ -108,6 +107,7 @@ export class UserService {
     }
     this._usersCache.set(user.id, user);
     if (this.currentUserId === user.id) {
+      AuthService.CacheCurrentUser(user);
       this.currentUser = user;
     }
     let observable = this._usersObservableCache.get(user.id);

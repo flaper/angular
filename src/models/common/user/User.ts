@@ -9,9 +9,11 @@ export class User extends InitableModel {
   photoLarge:string;
   created:Date;
   updated:Date;
-  extra:UserExtra = new UserExtra({init: {}});
+  extra:UserExtra = null;
 
   constructor({init = {}}) {
     super({init});
+    let extra = init['extra'] ? init['extra'] : {};
+    this.extra = new UserExtra({init: extra});
   }
 }

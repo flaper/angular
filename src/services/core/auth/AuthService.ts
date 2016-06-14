@@ -46,6 +46,7 @@ export class AuthService {
   jwtData:JwtData;
   //don't use this, better use UserService.currentUserObservable
   currentUserObservable:Subject<User>;
+  private currentUser = null;
 
   constructor(private api:ApiService, private location:Location) {
     this.currentUserObservable = new BehaviorSubject<User>(null);
@@ -64,8 +65,13 @@ export class AuthService {
     }
   }
 
-  setCurrentUser(user) {
+  static CacheCurrentUser(user) {
     ls.setItem('currentUser', JSON.stringify(user));
+  }
+
+  setCurrentUser(user) {
+    AuthService.CacheCurrentUser(user);
+    this.currentUser = user;
     //noinspection TypeScriptUnresolvedFunction
     this.currentUserObservable.next(new User({init: user}));
   }
@@ -122,7 +128,10 @@ export class AuthService {
   requestUser() {
     let userId = this.jwtData.userId;
     let observer = this.api.request('get', `users/${userId}`, {filter: JSON.stringify({include: 'roles'})});
-    observer.subscribe(user => this.setCurrentUser(user),
+    observer.subscribe(user => {
+        user.extra = this.currentUser ? this.currentUser.extra : {};
+        this.setCurrentUser(user)
+      },
       (error) => {
         //e.g. at stage server when record removed
         this.logout();

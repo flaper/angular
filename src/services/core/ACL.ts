@@ -40,6 +40,9 @@ export class ACL {
         case 'admin':
           result = result || this.isAdmin();
           break;
+        case 'sales':
+          result = result || this.isSales();
+          break;
         case 'super':
           result = result || this.isSuper();
           break;
@@ -50,6 +53,11 @@ export class ACL {
 
   getRoles() {
     return _get(this.userService.currentUser, "roles");
+  }
+
+  isSales() {
+    let roles:any = this.getRoles();
+    return roles && (roles.indexOf('sales') > -1) || this.isSuper();
   }
 
   isAdmin() {
