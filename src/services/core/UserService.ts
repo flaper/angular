@@ -3,8 +3,6 @@ import {User, UserExtra} from "../../models/index";
 import {AuthService} from "./auth/AuthService";
 import {ApiService} from './ApiService';
 import {Subject, ReplaySubject} from 'rxjs';
-import {ucs2} from "punycode";
-import {ReplacePipe} from "../../../node_modules/@angular/common/src/pipes/replace_pipe";
 let _uniq = require('lodash/uniq');
 
 @Injectable()
