@@ -89,6 +89,10 @@ export class UserService {
     return this.api.request('get', 'users', {filter: filter});
   }
 
+  put(data) {
+    return this.api.request('put', `users/${data.id}`, data);
+  }
+
   count(where = null) {
     let data = {};
     if (where) {
