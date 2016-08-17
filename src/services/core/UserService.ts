@@ -3,8 +3,6 @@ import {User, UserExtra} from "../../models/index";
 import {AuthService} from "./auth/AuthService";
 import {ApiService} from './ApiService';
 import {Subject, ReplaySubject} from 'rxjs';
-import {ucs2} from "punycode";
-import {ReplacePipe} from "../../../node_modules/@angular/common/src/pipes/replace_pipe";
 let _uniq = require('lodash/uniq');
 
 @Injectable()
@@ -91,6 +89,10 @@ export class UserService {
     return this.api.request('get', 'users', {filter: filter});
   }
 
+  put(data) {
+    return this.api.request('put', `users/${data.id}`, data);
+  }
+
   count(where = null) {
     let data = {};
     if (where) {
@@ -102,8 +104,11 @@ export class UserService {
   private _setUser(data) {
     let user = data;
     let currentData = this._usersCache.get(user.id);
-    if (currentData && currentData && currentData.extra) {
-      user.extra = currentData.extra;
+    if (currentData) {
+      if (currentData.extra)
+        user.extra = currentData.extra;
+      if (currentData.roles)
+        user.roles = currentData.roles;
     }
     this._usersCache.set(user.id, user);
     if (this.currentUserId === user.id) {

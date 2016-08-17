@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {ApiService} from '../core/ApiService';
 import {FObject, DOMAINS} from "../../models/index";
 import {ReplaySubject, Subject} from 'rxjs';
@@ -63,7 +63,7 @@ export class ObjectService {
 
   getRouteById(id) {
     let obj = this.$getById(id);
-    return  obj ? ObjectService.getRoute(obj) : null;
+    return obj ? ObjectService.getRoute(obj) : null;
   }
 
   static getUrl(obj) {
@@ -79,16 +79,13 @@ export class ObjectService {
   }
 
   static getRoute(obj) {
-    let params = {mainDomain: obj.mainDomain, slug: obj.slug};
-    let route = '/LayoutObject';
+    let params = [`/${obj.mainDomain}`, obj.slug];
     if (obj.mainDomain === DOMAINS.PLACES) {
       if (obj.region) {
-        params['region'] = obj.region;
-        delete params.mainDomain;
-        route = '/LayoutObjectPlace';
+        params = [params[0], obj.region, params[1]];
       }
     }
-    return [route, params];
+    return params;
   }
 
 
