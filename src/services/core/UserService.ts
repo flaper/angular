@@ -100,8 +100,11 @@ export class UserService {
   private _setUser(data) {
     let user = data;
     let currentData = this._usersCache.get(user.id);
-    if (currentData && currentData && currentData.extra) {
-      user.extra = currentData.extra;
+    if (currentData) {
+      if (currentData.extra)
+        user.extra = currentData.extra;
+      if (currentData.roles)
+        user.roles = currentData.roles;
     }
     this._usersCache.set(user.id, user);
     if (this.currentUserId === user.id) {
