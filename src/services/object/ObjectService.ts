@@ -63,7 +63,7 @@ export class ObjectService {
 
   getRouteById(id) {
     let obj = this.$getById(id);
-    return  obj ? ObjectService.getRoute(obj) : null;
+    return obj ? ObjectService.getRoute(obj) : null;
   }
 
   static getUrl(obj) {
@@ -79,7 +79,7 @@ export class ObjectService {
   }
 
   static getRoute(obj) {
-    let params = [obj.mainDomain, obj.slug];
+    let params = [`/${obj.mainDomain}`, obj.slug];
     if (obj.mainDomain === DOMAINS.PLACES) {
       if (obj.region) {
         params = [params[0], obj.region, params[1]];
