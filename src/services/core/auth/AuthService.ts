@@ -52,6 +52,7 @@ export class AuthService {
     this.currentUserObservable = new BehaviorSubject<User>(null);
     //first let's try to get jwt from URL, then from cache
     let params = UrlService.getSearchParameters();
+
     if (params['jwt']) {
       let jwtString = decodeURIComponent(params['jwt']);
       this.validateJwtAndRequestUser(jwtString);
@@ -74,6 +75,15 @@ export class AuthService {
     this.currentUser = user;
     //noinspection TypeScriptUnresolvedFunction
     this.currentUserObservable.next(new User({init: user}));
+  }
+
+  // login(data){
+  //   return this.api.request('post', `users/login`, data);
+  // }
+  login(data){
+    return this.api.request('post', 'users/login', data).subscribe(res => {
+      this.validateJwtAndRequestUser(res.id);
+    })
   }
 
   logout() {
