@@ -55,10 +55,7 @@ export class AuthService {
 
     if (params['jwt']) {
       let jwtString = decodeURIComponent(params['jwt']);
-      this.validateJwtAndRequestUser(jwtString);
-      if (this.jwtData && Config.SUCCESS_LOGIN_CALLBACK) {
-        Config.SUCCESS_LOGIN_CALLBACK();
-      }
+      this.loginByJwt(jwtString);
     }
 
     if (!this.jwtData) {
@@ -77,13 +74,16 @@ export class AuthService {
     this.currentUserObservable.next(new User({init: user}));
   }
 
-  // login(data){
-  //   return this.api.request('post', `users/login`, data);
-  // }
-  login(data){
-    return this.api.request('post', 'users/login', data).subscribe(res => {
-      this.validateJwtAndRequestUser(res.id);
-    })
+  loginByJwt(jwtString) {
+    this.validateJwtAndRequestUser(jwtString);
+    if (this.jwtData && Config.SUCCESS_LOGIN_CALLBACK) {
+      Config.SUCCESS_LOGIN_CALLBACK();
+    }
+  }
+
+  login(data) {
+    this.api.request('post', 'users/login', data)
+      .subscribe(jwt => this.loginByJwt(JSON.stringify(jwt)));
   }
 
   logout() {
