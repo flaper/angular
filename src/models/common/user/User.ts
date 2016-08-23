@@ -3,6 +3,7 @@ import {InitableModel} from "../../core/InitableModel";
 
 export class User extends InitableModel {
   id:string;
+  username: string;
   displayName:string;
   login:string;
   roles:string[];
