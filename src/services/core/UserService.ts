@@ -90,6 +90,7 @@ export class UserService {
   }
 
   put(data) {
+
     return this.api.request('put', `users/${data.id}`, data);
   }
 

@@ -4,6 +4,7 @@ import {InitableModel} from "../../core/InitableModel";
 export class User extends InitableModel {
   id:string;
   displayName:string;
+  login:string;
   roles:string[];
   photo:string;
   photoLarge:string;
