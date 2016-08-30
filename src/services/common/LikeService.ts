@@ -60,10 +60,9 @@ export class LikeService {
     @param id - subjectUserId
     @return
   */
-  getLikesHistory(subjectUserId, limit = 20, subjectType = "Story"){
-    let likesHistory = {};
+  getLikesHistory(where, limit = 20){
     let filter = {order: 'created DESC', limit: limit};
-    filter['where'] = {subjectUserId:subjectUserId, subjectType:subjectType};
+    filter['where'] = where;
     filter['fields'] = {subjectUserId:false, subjectType:false};
     return this.api.request('get', 'likes/', {filter: JSON.stringify(filter)});
   }

@@ -18,6 +18,11 @@ export class CommentService {
       });
   }
 
+  get({where, limit = 20, order = "", skip = 0, fields = {}}){
+    let filter = JSON.stringify({where: where, order: order, skip: skip, limit: limit, fields: fields});
+    return this.api.request('get', 'comments',{filter:filter});
+  }
+
   last(subjectIds) {
     return this.api.request('get', 'comments/last', {ids: JSON.stringify(subjectIds)});
   }
