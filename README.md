@@ -6,6 +6,8 @@ Flaper services, models, pipes, etc
 ### To link with local flaper.web
 ```
 npm install typescript -g
+npm install typings -g
+typings install --global
 ```
 
 We need to have exactly same packages, so remove local node_modules
