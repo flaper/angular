@@ -84,12 +84,13 @@ export class UserService {
     return this.api.request('get', `users/${id}/identities`)
   }
 
-  get({where, order = "", offset = 0}) {
-    let filter = JSON.stringify({where: where, order: order, offset: offset});
+  get({where, order = "", offset = 0, fields = {}}) {
+    let filter = JSON.stringify({where: where, order: order, offset: offset, fields: fields});
     return this.api.request('get', 'users', {filter: filter});
   }
 
   put(data) {
+
     return this.api.request('put', `users/${data.id}`, data);
   }
 

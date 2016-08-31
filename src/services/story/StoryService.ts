@@ -10,8 +10,8 @@ export class StoryService {
   constructor(private api:ApiService, private _like:LikeService) {
   }
 
-  get({where, order = "", skip = 0}) {
-    let filter = JSON.stringify({where: where, order: order, skip: skip, limit: this.LIMIT});
+  get({where, limit = this.LIMIT, order = "", skip = 0, fields = {}}) {
+    let filter = JSON.stringify({where: where, order: order, skip: skip, limit: limit, fields: fields});
     return this.api.request('get', 'stories', {filter: filter})
       .do((data) => {
         this._like.requestLikesInfo(data.map(model => model.id));

@@ -5,6 +5,7 @@ export class User extends InitableModel {
   id:string;
   username: string;
   displayName:string;
+  login:string;
   roles:string[];
   photo:string;
   photoLarge:string;
