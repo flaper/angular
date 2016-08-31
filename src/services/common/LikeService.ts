@@ -56,12 +56,15 @@ export class LikeService {
     return this.api.request('post', `likes/toggle/${subjectId}`);
   }
 
-  /*
-    @param id - subjectUserId
-    @return
-  */
-  getLikesHistory(where, limit = 20){
-    let filter = {order: 'created DESC', limit: limit};
+  count(where = null) {
+    let data = {};
+    if (where) {
+      data['where'] = JSON.stringify(where);
+    }
+    return this.api.request('get', 'likes/count', data).map(data => data.count);
+  }
+  getLikesHistory(where, limit = 20, offset = 0){
+    let filter = {order: 'created DESC', limit: limit, offset: offset};
     filter['where'] = where;
     filter['fields'] = {subjectUserId:false, subjectType:false};
     return this.api.request('get', 'likes/', {filter: JSON.stringify(filter)});
