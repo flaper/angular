@@ -3,6 +3,7 @@ export class Story {
   status:string;
   userId:string;
   slug:string;
+  images:string[];
   title:string;
   content:string;
   contentHTML:string;
