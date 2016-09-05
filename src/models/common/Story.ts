@@ -6,6 +6,7 @@ export class Story {
   images:string[];
   title:string;
   content:string;
+  type:string;
   rating:number;
   contentHTML:string;
   shortInline:string;
