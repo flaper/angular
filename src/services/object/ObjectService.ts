@@ -15,7 +15,7 @@ export class ObjectService {
 
   getBySlug({slug, mainDomain, region = null}) {
     let query = {mainDomain, slug};
-    if (region) {
+    if (region && region != 'undefined') {
       query['region'] = region;
     }
     return this.api.request('get', `objects/bySlug`, query)
