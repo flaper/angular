@@ -1,6 +1,6 @@
 {
   "name": "@flaper/angular",
-  "version": "0.6.0",
+  "version": "0.6.4",
   "description": "Angular2 Flaper lib: services, models, etc",
   "main": "./src/index.ts",
   "typings": "./dist/index.d.ts",
@@ -9,9 +9,8 @@
     "src"
   ],
   "scripts": {
-    "install_typings": "typings install",
-    "test": "tslint *.ts && typings install && tsc",
-    "prepublish": "typings install && tsc"
+    "test": "tslint *.ts && tsc",
+    "prepublish": "tsc"
   },
   "keywords": [
     "angular2",
@@ -41,6 +40,14 @@
     "zone.js": "~0.6.17"
   },
   "devDependencies": {
-    "typescript": "^1.8.10"
+    "@types/core-js": "^0.9.28",
+    "@types/hammerjs": "^2.0.28",
+    "@types/jasmine": "^2.2.29",
+    "@types/node": "^6.0.38",
+    "@types/protractor": "^1.5.16",
+    "@types/selenium-webdriver": "^2.44.26",
+    "@types/source-map": "^0.1.26",
+    "@types/uglify-js": "^2.0.27",
+    "@types/webpack": "^1.12.29"
   }
 }

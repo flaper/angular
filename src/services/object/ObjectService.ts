@@ -13,7 +13,7 @@ export class ObjectService {
   private _objectsObservableCache:Map<string, ReplaySubject<FObject>> = new Map<string, ReplaySubject<FObject>>();
   private _objectsCache:Map<string, FObject> = new Map<string, FObject>();
 
-  getBySlug({slug, mainDomain, region = null}) {
+  getBySlug({slug, mainDomain, region}) {
     let query = {mainDomain, slug};
     if (region && region != 'undefined') {
       query['region'] = region;
