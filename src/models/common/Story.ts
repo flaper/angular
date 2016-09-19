@@ -2,6 +2,7 @@ export class Story {
   id:string;
   status:string;
   userId:string;
+  objectId:string;
   slug:string;
   images:string[];
   title:string;
