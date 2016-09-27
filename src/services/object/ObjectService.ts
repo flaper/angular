@@ -4,6 +4,7 @@ import {ApiService} from '../core/ApiService';
 import {FObject, DOMAINS} from "../../models/index";
 import {ReplaySubject, Subject} from 'rxjs';
 let _uniq = require('lodash/uniq');
+const PAGESIZE:number = 10;
 
 @Injectable()
 export class ObjectService {
@@ -21,7 +22,29 @@ export class ObjectService {
     return this.api.request('get', `objects/bySlug`, query)
       .map(data => new FObject({init: data}));
   }
+  count(where) {
+    let data = {};
+    if (where) {
+      data['where'] = JSON.stringify(where);
+    }
+    return this.api.request('get', 'objects/count', data);
+  }
 
+  getPermissions(id) {
+    return this.api.request('get', `Objects/${id}/permissions`)
+  }
+
+  search(text,page = 0,order="",fields = {}) {
+    let where = {or:[
+        {title : {like: text}},
+        {region : {like: text}},
+        {mainDomain : {like: text}}
+      ]},
+      limit = PAGESIZE,
+      offset = page*PAGESIZE;
+    let filter = JSON.stringify({where: where, order: order, limit:limit ,offset: offset, fields: fields});
+    return this.api.request('get', 'objects', {filter:filter})
+  }
   setObject(obj) {
     this._objectsCache.set(obj.id, obj);
     this._objectsObservableCache.get(obj.id).next(obj);
