@@ -22,6 +22,7 @@ export class ObjectService {
     return this.api.request('get', `objects/bySlug`, query)
       .map(data => new FObject({init: data}));
   }
+
   count(where) {
     let data = {};
     if (where) {
@@ -49,7 +50,9 @@ export class ObjectService {
     this._objectsCache.set(obj.id, obj);
     this._objectsObservableCache.get(obj.id).next(obj);
   }
-
+  getOwners(objectId:string) {
+    return this.api.request('get', `objects/${objectId}/owners`);
+  }
   getById(id):Subject<FObject> {
     if (!this._objectsObservableCache.has(id)) {
       this._objectsObservableCache.set(id, new ReplaySubject<FObject>(1));

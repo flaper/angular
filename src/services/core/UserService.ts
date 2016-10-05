@@ -47,6 +47,17 @@ export class UserService {
     return this._usersObservableCache.get(id);
   }
 
+  removeRightsForObject(userId,objectId) {
+    return this.api.request('delete', `users/${userId}/objects?objectId=${objectId}`);
+  }
+
+  addRightsForObject(userId,objectId) {
+    let data = {
+      objectId: objectId
+    };
+    return this.api.request('put', `users/${userId}/objects`, data);
+  }
+
   requestById(id, filter = null) {
     let data = filter ? {filter: JSON.stringify(filter)} : null;
     return this.api.request('get', `users/${id}`, data)
