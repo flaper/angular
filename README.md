@@ -1,4 +1,4 @@
-# Flaper Angular Lib
+# Flaper Angular Lib [![npm version](https://badge.fury.io/js/%40flaper%2Fangular.svg)](https://badge.fury.io/js/%40flaper%2Fangular)
 Flaper services, models, pipes, etc
 
 
