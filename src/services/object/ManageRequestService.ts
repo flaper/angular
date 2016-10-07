@@ -9,14 +9,17 @@ export class ManageRequestService {
   constructor(private api:ApiService, private _object:ObjectService) {
   }
 
-  get({where, order = "", offset = 0}) {
-    let filter = JSON.stringify({where: where, order: order, offset: offset});
+  get({where,limit = 0, order = "", offset = 0}) {
+    let filter = JSON.stringify({where: where,limit:limit, order: order, offset: offset});
     return this.api.request('get', 'ManageRequests', {filter: filter})
       .map(rows => rows.map(row => new ManageRequest({init: row})))
       //request objects
       .do(requests => this._object.requestIds(requests.map(r => r.subjectId)))
   }
-
+  count({where,limit = 0, order = "", offset = 0}) {
+    //todo : implement count method
+    return 0;
+  }
   getBySubjectId(subjectId) {
     return this.get({where: {subjectId: subjectId}}).map(data => data.length ? data[0] : null)
   }
