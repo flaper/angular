@@ -18,8 +18,13 @@ export class StoryService {
       });
   }
 
+  getAudit(storyId, query = {}) {
+    return this.api.request('get',`stories/${storyId}/audit`,query);
+  }
+
   getBySlug(slug) {
-    return this.api.request('get', `stories/slug/${slug}`);
+    let query = {slug: slug};
+    return this.api.request('get', `stories/slug`, query);
   }
 
   post(data) {
