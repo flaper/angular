@@ -19,7 +19,7 @@ export class StoryService {
   }
 
   getAudit(storyId, filter = {}) {
-    let query = JSON.stringify({filter: JSON.stringify(filter)});
+    let query = {filter: JSON.stringify(filter)};
     return this.api.request('get', `stories/${storyId}/audit`, query);
   }
 
