@@ -24,6 +24,7 @@
       "jasmine",
       "node",
       "uglify-js",
+      "source-map",
       "webpack"
     ]
   },
