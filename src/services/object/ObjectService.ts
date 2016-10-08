@@ -35,24 +35,28 @@ export class ObjectService {
     return this.api.request('get', `Objects/${id}/permissions`)
   }
 
-  search(text,page = 0,order="",fields = {}) {
-    let where = {or:[
-        {title : {like: text}},
-        {region : {like: text}},
-        {mainDomain : {like: text}}
-      ]},
-      limit = PAGESIZE,
-      offset = page*PAGESIZE;
-    let filter = JSON.stringify({where: where, order: order, limit:limit ,offset: offset, fields: fields});
-    return this.api.request('get', 'objects', {filter:filter})
+  search(text, page = 0, order = "", fields = {}) {
+    let where = {
+        or: [
+          {title: {like: text}},
+          {region: {like: text}},
+          {mainDomain: {like: text}}
+        ]
+      },
+      offset = page * PAGESIZE;
+    let filter = JSON.stringify({where: where, order: order, limit: PAGESIZE, offset: offset, fields: fields});
+    return this.api.request('get', 'objects', {filter: filter})
   }
+
   setObject(obj) {
     this._objectsCache.set(obj.id, obj);
     this._objectsObservableCache.get(obj.id).next(obj);
   }
+
   getOwners(objectId:string) {
     return this.api.request('get', `objects/${objectId}/owners`);
   }
+
   getById(id):Subject<FObject> {
     if (!this._objectsObservableCache.has(id)) {
       this._objectsObservableCache.set(id, new ReplaySubject<FObject>(1));
@@ -118,7 +122,7 @@ export class ObjectService {
   navigateTo(obj, action = null) {
     let url = ObjectService.getUrl(obj);
     if (action) {
-      url += '/' + action;
+      url += '/-' + action;
     }
     this.router.navigateByUrl(url);
   }
