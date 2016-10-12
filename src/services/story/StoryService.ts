@@ -18,9 +18,8 @@ export class StoryService {
       });
   }
 
-  getAudit(storyId, filter = {}) {
-    let query = {filter: JSON.stringify(filter)};
-    return this.api.request('get', `stories/${storyId}/audit`, query);
+  getAudit(storyId, query = {}) {
+    return this.api.request('get',`stories/${storyId}/audit`,query);
   }
 
   getBySlug(slug) {

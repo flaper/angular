@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "test": "tslint *.ts && tsc",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "replace-local": "cp -Rf dist/ src/ ../web/node_modules/@flaper/angular/ && cp -Rf dist/ src/ ../admin/node_modules/@flaper/angular/"
   },
   "keywords": [
     "angular2",

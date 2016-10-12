@@ -17,9 +17,10 @@ export class ManageRequestService {
       .do(requests => this._object.requestIds(requests.map(r => r.subjectId)))
   }
   count({where,limit = 0, order = "", offset = 0}) {
-    //todo : implement count method
-    return 0;
+    let filter = JSON.stringify({where: where,limit:limit, order: order, offset: offset});
+    return this.api.request('get', 'ManageRequests/count', {filet: filter});
   }
+  
   getBySubjectId(subjectId) {
     return this.get({where: {subjectId: subjectId}}).map(data => data.length ? data[0] : null)
   }
