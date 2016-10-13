@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {ApiService} from '../core/ApiService';
 import {Config} from "../core/Config";
 import {LikeService} from "../common/LikeService";
-
+import {ObjectService} from "../object/ObjectService";
 @Injectable()
 export class StoryService {
   LIMIT = Config.PAGE_LIMIT;
 
-  constructor(private api:ApiService, private _like:LikeService) {
+  constructor(private api:ApiService, private _like:LikeService, private _object:ObjectService) {
   }
 
   get({where, limit = this.LIMIT, order = "", skip = 0, fields = {}}) {
@@ -21,7 +21,18 @@ export class StoryService {
   getAudit(storyId, query = {}) {
     return this.api.request('get',`stories/${storyId}/audit`,query);
   }
-
+  getBaseLink(slug) {
+    let baseLink:any = {slug:slug};
+    this.getBySlug(slug).subscribe(data => {
+      let object:any;
+      this._object.getById(data.objectId).subscribe (obj => {
+        baseLink.mainDomain = obj.mainDomain;
+        baseLink.region = obj.region;
+        baseLink.objectSlug = obj.slug;
+      })
+    })
+    return baseLink;
+  }
   getBySlug(slug) {
     let query = {slug: slug};
     return this.api.request('get', `stories/slug`, query);
