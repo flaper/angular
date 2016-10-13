@@ -3,6 +3,8 @@ import {ApiService} from '../core/ApiService';
 import {Config} from "../core/Config";
 import {LikeService} from "../common/LikeService";
 import {ObjectService} from "../object/ObjectService";
+import {ReplaySubject, Subject} from 'rxjs';
+
 @Injectable()
 export class StoryService {
   LIMIT = Config.PAGE_LIMIT;
@@ -21,20 +23,23 @@ export class StoryService {
   getAudit(storyId, query = {}) {
     return this.api.request('get',`stories/${storyId}/audit`,query);
   }
-  getBaseLink(slug) {
-    let baseLink:any = {slug:slug};
-    this.getBySlug(slug).subscribe(data => {
-      let object:any;
-      this._object.getById(data.objectId).subscribe (obj => {
-        baseLink.mainDomain = obj.mainDomain;
-        baseLink.region = obj.region;
-        baseLink.objectSlug = obj.slug;
+
+  getBaseLink(story) {
+    let baseLink:any = new ReplaySubject(1);
+    let identifier = story.status === 'active' ? story.slug : story.id;
+    if (story.objectId) {
+      this._object.getById(story.objectId).subscribe (obj => {
+        baseLink.next([obj.mainDomain,obj.region,obj.slug,identifier].filter(val => !!val));
       })
-    })
+    }
+    else {
+      baseLink.next(['/s',identifier]);
+    }
     return baseLink;
   }
-  getBySlug(slug) {
-    let query = {slug: slug};
+
+  getBySlug(slug,beforeSlug) {
+    let query = {slug:slug,before_slug:beforeSlug};
     return this.api.request('get', `stories/slug`, query);
   }
 
