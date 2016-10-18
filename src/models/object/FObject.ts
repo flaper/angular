@@ -6,7 +6,9 @@ export class FObject extends InitableModel {
   id:string;
   title:string;
   slug:string;
+  reviewsNumber:number;
   mainDomain:string;
+  rating:number;
   region:string;
   fields:Array<any>;
   flap:any;
@@ -18,7 +20,14 @@ export class FObject extends InitableModel {
   isPlace() {
     return this.mainDomain === DOMAINS.PLACES;
   }
-
+  getRating() {
+    let rule = !this.flap || !this.flap.reviewsNumber || (this.reviewsNumber >= 0.2 * this.flap.reviewsNumber) ;
+    return rule ? this.rating : this.flap.rating;
+  }
+  getReviewsNumber() {
+    let rule = !this.flap || !this.flap.reviewsNumber || (this.reviewsNumber >= 0.2 * this.flap.reviewsNumber) ;
+    return rule ? this.reviewsNumber : this.flap.reviewsNumber;
+  }
   getAddress() {
     let res = "";
     let address = this.fields['address'];
