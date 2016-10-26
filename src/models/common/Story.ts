@@ -8,6 +8,7 @@ export class Story {
   title:string;
   content:string;
   type:string;
+  tags:string[];
   rating:number;
   contentHTML:string;
   shortInline:string;
