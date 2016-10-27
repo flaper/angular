@@ -1,6 +1,6 @@
 {
   "name": "@flaper/angular",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Angular2 Flaper lib: services, models, etc",
   "main": "./src/index.ts",
   "typings": "./dist/index.d.ts",
