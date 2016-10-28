@@ -96,34 +96,24 @@ export class ObjectService {
     return obj ? ObjectService.getRoute(obj) : null;
   }
 
-  static getUrl(obj) {
-    if (obj.mainDomain === DOMAINS.PLACES) {
-      let url = obj.mainDomain + '/';
-      if (obj.region) {
-        url += obj.region + '/';
-      }
-      return url + obj.slug;
-    } else {
-      return obj.mainDomain + '/' + obj.slug;
-    }
-  }
 
-  static getRoute(obj) {
+  static getRoute(obj, action = null) {
     let params = [`/${obj.mainDomain}`, obj.slug];
     if (obj.mainDomain === DOMAINS.PLACES) {
       if (obj.region) {
         params = [params[0], obj.region, params[1]];
       }
     }
+    if (action)
+      params.push('-'+action);
     return params;
   }
 
+  static getUrl(obj, action = null) {
+    return ObjectService.getRoute(obj, action).join('/');
+  }
 
   navigateTo(obj, action = null) {
-    let url = ObjectService.getUrl(obj);
-    if (action) {
-      url += '/-' + action;
-    }
-    this.router.navigateByUrl(url);
+    this.router.navigateByUrl(ObjectService.getUrl(obj, action));
   }
 }
