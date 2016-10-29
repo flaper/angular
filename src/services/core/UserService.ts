@@ -7,11 +7,17 @@ let _uniq = require('lodash/uniq');
 
 @Injectable()
 export class UserService {
-  currentUserId:string;
-  currentUser:User;
-  currentUserObservable:Subject<User>;
+  currentUserId: string;
 
-  constructor(private api:ApiService, auth:AuthService) {
+  // этот метод лучше чем currentUser, т.к. currentUser может быть null во время авторизации
+  hasCurrentUser() {
+    return this.currentUser || ls.getItem('jwt');
+  }
+
+  currentUser: User;
+  currentUserObservable: Subject<User>;
+
+  constructor(private api: ApiService, auth: AuthService) {
     //noinspection TypeScriptUnresolvedFunction
     auth.currentUserObservable.subscribe((user) => {
       /*
@@ -31,14 +37,14 @@ export class UserService {
     this.currentUserObservable = auth.currentUserObservable;
   }
 
-  private _usersObservableCache:Map<string, ReplaySubject<User>> = new Map<string, ReplaySubject<User>>();
-  private _usersCache:Map<string, User> = new Map<string, User>();
+  private _usersObservableCache: Map<string, ReplaySubject<User>> = new Map<string, ReplaySubject<User>>();
+  private _usersCache: Map<string, User> = new Map<string, User>();
 
-  isCurrentUser(user:User) {
+  isCurrentUser(user: User) {
     return this.currentUser && user && this.currentUser.id === user.id;
   }
 
-  getById(id):Subject<User> {
+  getById(id): Subject<User> {
     if (!this._usersObservableCache.has(id)) {
       this._usersObservableCache.set(id, new ReplaySubject<User>(1));
       this.api.request('get', `users/${id}`)
@@ -47,11 +53,11 @@ export class UserService {
     return this._usersObservableCache.get(id);
   }
 
-  removeRightsForObject(userId,objectId) {
+  removeRightsForObject(userId, objectId) {
     return this.api.request('delete', `users/${userId}/objects?objectId=${objectId}`);
   }
 
-  addRightsForObject(userId,objectId) {
+  addRightsForObject(userId, objectId) {
     let data = {
       objectId: objectId
     };
@@ -86,7 +92,7 @@ export class UserService {
       let filter = {where: where};
       this.api.request('get', 'users', {filter: JSON.stringify(filter)})
         .subscribe(users => {
-          users.forEach(user =>  this._setUser(user));
+          users.forEach(user => this._setUser(user));
         })
     }
   }
