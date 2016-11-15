@@ -7,6 +7,7 @@ export class Story {
   images:string[];
   title:string;
   content:string;
+  storiesNumber:number;
   type:string;
   tags:string[];
   rating:number;
