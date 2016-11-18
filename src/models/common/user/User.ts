@@ -12,6 +12,7 @@ export class User extends InitableModel {
   created:Date;
   updated:Date;
   extra:UserExtra = null;
+  storiesNumber: number;
 
   constructor({init = {}}) {
     super({init});
