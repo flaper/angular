@@ -6,3 +6,4 @@ export * from './story/index';
 export * from './user/index';
 export * from './utils/index';
 export * from './providers';
+export * from './poll/index';

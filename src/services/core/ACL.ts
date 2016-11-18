@@ -16,6 +16,12 @@ export class ACL {
     },
     Comment: {
       write: ['$owner', 'super']
+    },
+    Poll: {
+      write: ['$owner','admin'],
+      "delete": ['$owner'],
+      deny: ['admin'],
+      close: ['$owner','admin']
     }
   };
 

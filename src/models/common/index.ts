@@ -6,4 +6,5 @@ export * from './ICommentable';
 export * from './ILikable';
 export * from './Image';
 export * from './Story';
+export * from './Poll';
 export * from './Subscription';
