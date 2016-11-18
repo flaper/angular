@@ -4,5 +4,4 @@ export * from './ApiService';
 export * from './Config';
 export * from './RoleService';
 export * from './UserService';
-export * from './UserMenuService';
 export * from './providers';
