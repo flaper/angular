@@ -11,15 +11,15 @@ export class SearchService {
   constructor(private _api:ApiService) {
 
   }
-  search(query:string="",region:string="",domain:string=""):any {
-    let filter = {
+  search(query:string,region:string,domain:string):any {
+    let filter:any = {
       where : {
-        query:query,
-        region:region,
-        domain:domain
+        query:query
       }
-    },
-    filterString = JSON.stringify(filter);
+    };
+    if(domain) filter.where.domain = domain;
+    if(region) filter.where.region = region;
+    let filterString = JSON.stringify(filter);
     return this._api.request('get','Search',{filter:filterString});
   }
 }

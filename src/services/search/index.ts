@@ -1,2 +1,2 @@
-export * from "./SearchService"
-export * from "./LocationService"
+export * from "./SearchService";
+export * from "./LocationService";

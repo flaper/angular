@@ -5,7 +5,7 @@ import {ObjectService, ManageRequestService} from './object/index';
 import {StoryBestService, StoryService} from './story/index';
 import {VoteService, PollService} from './poll/index';
 import {PremiumSupport} from "./business/PremiumSupport";
-
-const _PROVIDERS: Array<any> = [PremiumSupport, ManageRequestService, ObjectService, StoryBestService, StoryService, VoteService, PollService];
+import {SearchService, LocationService} from "./search/index";
+const _PROVIDERS: Array<any> = [PremiumSupport, ManageRequestService, ObjectService, StoryBestService, StoryService, VoteService, PollService, SearchService, LocationService];
 
 export const ALL_PROVIDERS = CORE_PROVIDERS.concat(COMMON_PROVIDERS, USER_PROVIDERS, _PROVIDERS);
