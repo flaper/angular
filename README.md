@@ -9,7 +9,7 @@ npm install typescript@2.0 -g
 ```
 После каждого изменения:
 
-`npm run replace-local`
+`npm run sync`
 (Ожидает, что все проекты лежат в одной общей папке (*common/web*, *common/angular*, *common/admin*)
 
 ## Usage 
