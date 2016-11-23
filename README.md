@@ -3,21 +3,14 @@ Flaper services, models, pipes, etc
 
 
 ## Development 
-### To link with local flaper.web
+### Для использования новых версий в локальных flaper.web и flaper.admin
 ```
 npm install typescript@2.0 -g
 ```
+После каждого изменения:
 
-We need to have exactly same packages, so remove local node_modules
-```bash
-rm node_modules
-ln -s /web/flaper.admin/node_modules node_modules
-```
-
-To compile use `tsc`
-Than use `npm link` command to join
-
-
+`npm run replace-local`
+(Ожидает, что все проекты лежат в одной общей папке (*common/web*, *common/angular*, *common/admin*)
 
 ## Usage 
 
@@ -27,4 +20,10 @@ Than use `npm link` command to join
 ## Example
 ```typescript
 import {UserService, StoryService} from '@flaper/angular';
+```
+
+## Publish
+```
+npm patch version
+npm publish
 ```
