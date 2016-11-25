@@ -3,6 +3,7 @@ export class Poll {
   status:string;
   type:string;
   userId:string;
+  description:string;
   answers:string[];
   title:string;
   openDate: Date;
