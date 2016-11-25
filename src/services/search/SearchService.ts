@@ -11,7 +11,7 @@ export class SearchService {
   constructor(private _api:ApiService) {
 
   }
-  search(query:string,region:string,domain:string):any {
+  search(query:string,domain:string,region:string):any {
     let filter:any = {
       where : {
         query:query

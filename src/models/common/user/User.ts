@@ -8,6 +8,7 @@ export class User extends InitableModel {
   login:string;
   roles:string[];
   photo:string;
+  level:number;
   photoLarge:string;
   created:Date;
   updated:Date;
